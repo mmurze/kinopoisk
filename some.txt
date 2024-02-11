@@ -1,0 +1,7 @@
+yarn create vite my-vue-app --template vue
+
+yarn add pinia
+yarn add vue-router@4
+yarn add vuetify
+
+// yarn install -D sass-loader sass
