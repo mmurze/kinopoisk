@@ -4,18 +4,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "concurrently \"yarn run dev\" \"yarn run server\"",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "json-server -w ./server/kinopoisk-1.json"
+    "server": "json-server -w ./server/kinopoisk-1.json -p 3001"
   },
   "dependencies": {
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
+    "concurrently": "^8.2.2",
     "json-merger": "^1.1.10",
     "json-server": "^1.0.0-alpha.21",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
-    "vue-router": "4"
+    "vue-axios": "^3.5.2",
+    "vue-router": "4",
+    "vuetify": "^3.5.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",

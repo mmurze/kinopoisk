@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import Axios from 'axios';
+import axios from "axios";
+//
+axios.defaults.baseURL = "http://localhost:3001/docs"
 
-Axios.defaults.baseURL = "http://localhost:3000"
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
@@ -27,10 +28,7 @@ const pinia = createPinia()
 
 // Router
 import { createRouter, createWebHistory } from 'vue-router'
-import AddPersons from "./components/AddPersons.vue";
-import AddDish from "./components/AddDish.vue";
 import StartPage from "./components/StartPage.vue";
-import Results from "./components/Results.vue";
 const router = createRouter({
 	routes:[
 		{path: '/', name: 'home', component: StartPage},

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 let config = {
-	baseURL: 'http://localhost:3000/'
+	baseURL: 'http://localhost:3001/'
 };
 
 const httpClient = axios.create(config);
