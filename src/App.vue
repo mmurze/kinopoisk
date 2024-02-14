@@ -3,7 +3,9 @@ import StartPage from "./components/StartPage.vue";
 </script>
 
 <template>
-  <StartPage/>
+  <v-app>
+    <StartPage/>
+  </v-app>
 </template>
 
 <style>
