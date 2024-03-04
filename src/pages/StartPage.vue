@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mt-15">
     <v-text-field label="Film name ..." v-model="searchFilm">
     </v-text-field>
     <v-select
@@ -15,7 +15,8 @@
 
 <script>
 import axios from "axios";
-import pagination from "../helpers/Pagination.vue";
+import pagination from "../components/Pagination.vue";
+import {useFilmsStore} from "../stores/films.js";
 
 const enumTypeSort = {
   ascending: 1,
@@ -29,12 +30,16 @@ const enumSortBy = {
 
 export default {
   name: "StartPage",
+  setup(){
+    const fs = useFilmsStore()
+    return {fs}
+  },
   components:{
     pagination
   },
   data(){
     return{
-      perPage: 8,
+      perPage: 12,
       searchType: "",
       sortBy: "",
       typeSort: "",
@@ -90,27 +95,20 @@ export default {
     }
   },
   computed:{
-    getFilmByName(){
-      let res = []
-      this.films.forEach((item)=>{
-        item.name.toLowerCase().includes(this.searchFilm.toLowerCase()) ? res.push(item) : false
-      })
-      return res
-    },
     getFilm(){
       let res = []
-      this.films.forEach((item)=>{
+      this.fs.films.forEach((item)=>{
         item.name.toLowerCase().includes(this.searchFilm.toLowerCase()) ? res.push(item) : false
       })
-      res = this.sortedByYear(this.typeSort, this.sortBy, res)
+      res = this.sortedBy(this.typeSort, this.sortBy, res)
       return res
     },
     lengthPagination(){
-      return Math.ceil(this.getFilmByName.length / this.perPage)
+      return Math.ceil(this.getFilm.length / this.perPage)
     }
   },
   methods:{
-    sortedByYear(typeSort, sortBy, array){
+    sortedBy(typeSort, sortBy, array){
       let res = array
       switch (sortBy) {
         case enumSortBy.timing:
@@ -147,10 +145,14 @@ export default {
       return res
     }
   },
+  // beforeRouteEnter(to, from, next){
+  //   console.log("enter")
+  //   next()
+  // },
   async created() {
     try {
       const data = await axios.get('')
-      this.films = data.data
+      this.fs.films = data.data
     }
     catch (e){
       console.log(e.name)
