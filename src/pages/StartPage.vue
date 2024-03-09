@@ -15,7 +15,7 @@
 
 <script>
 import axios from "axios";
-import pagination from "../components/Pagination.vue";
+import pagination from "../helpers/Pagination.vue";
 import {useFilmsStore} from "../stores/films.js";
 
 const enumTypeSort = {

@@ -9,11 +9,12 @@ const vuetify = createVuetify({
 		defaultTheme: 'dark'
 	},
 	icons: {
-		defaultSet: 'mdi',
-		aliases,
-		sets: {
-			mdi,
-		},
+		iconfont: 'mdi',
+		// defaultSet: 'mdi',
+		// aliases,
+		// sets: {
+		// 	mdi,
+		// },
 	},
 	components,
 	directives,

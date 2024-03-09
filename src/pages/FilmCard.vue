@@ -3,11 +3,30 @@
     <v-img class="w-25" id="post" style="border-radius: 10px" :src="this.film.poster.url" :alt="this.film.name"></v-img>
     <v-card class="w-75" id="card" style="border-radius: 10px">
       <v-card-item>
-        <v-card-title id="title">{{this.film.name}}</v-card-title>
-        <v-card-subtitle class="text-caption">{{this.film.description}}</v-card-subtitle>
+        <v-card-title id="title" class="pa-0 ma-0">{{this.film.name}}</v-card-title>
+        <div class="wrapper">
+          <label for="button">...</label>
+          <input type="checkbox" id="button">
+          <p id="text">{{this.film.description}}</p>
+        </div>
+        <div class="ratings">
+          <div class="rating">kp: {{this.film.rating.kp}}</div>
+          <div class="rating">imdb: {{this.film.rating.imdb}}</div>
+          <div class="rating">critics: {{this.film.rating.filmCritics}}</div>
+        </div>
+        <v-rating length="10"></v-rating>
+        <p id="line"></p>
       </v-card-item>
     </v-card>
   </v-container>
+  <v-btn
+      @click="this.$router.push({name: 'home'})"
+      size="small"
+      style="width: fit-content; margin: 0px auto"
+
+  >
+    Вернуться на главную
+  </v-btn>
 </template>
 
 <script>
@@ -21,6 +40,7 @@ export default {
   data(){
     return{
       film: null,
+      rating: 0
     }
   },
   beforeRouteEnter(to, from, next){
@@ -75,12 +95,48 @@ export default {
   font-weight: bold;
   font-size: 20px;
 }
-#post{
-  /*border-bottom-left-radius: 10px;*/
-  /*border-top-left-radius: 10px;*/
+#text{
+  color: #dee3ed;
+  font-family: system-ui;
+  font-size: 12px;
 }
-#card{
-  /*border-bottom-right-radius: 10px;*/
-  /*border-top-right-radius: 10px;*/
+.wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  border-bottom: 1px solid #7DD3FC;
+  align-items: flex-end;
+  padding-bottom: 5px;
+}
+#text{
+  height: 40px;
+  overflow: hidden;
+  order: 0;
+}
+input[type="checkbox"] {
+  display: none;
+}
+input[type="checkbox"]:checked + #text {
+  height: auto;
+}
+label {
+  color: #dee3ed;
+  text-decoration: underline;
+  font-size: 18px;
+  cursor: pointer;
+}
+.ratings{
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.rating{
+  font-family: system-ui;
+  font-size: 12px;
+  border-radius: 8px;
+  background-color: #919496;
+  padding: 4px;
+}
+.score{
+
 }
 </style>
