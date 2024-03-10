@@ -3,19 +3,25 @@
     <v-img class="w-25" id="post" style="border-radius: 10px" :src="this.film.poster.url" :alt="this.film.name"></v-img>
     <v-card class="w-75" id="card" style="border-radius: 10px">
       <v-card-item>
-        <v-card-title id="title" class="pa-0 ma-0">{{this.film.name}}</v-card-title>
+        <v-card-title id="title" class="pa-0 ma-0 mb-2">{{this.film.name}}</v-card-title>
         <div class="wrapper">
-          <label for="button">...</label>
+          <label for="button" @click="flag=!flag">{{this.label()}}</label>
           <input type="checkbox" id="button">
           <p id="text">{{this.film.description}}</p>
         </div>
-        <div class="ratings">
-          <div class="rating">kp: {{this.film.rating.kp}}</div>
-          <div class="rating">imdb: {{this.film.rating.imdb}}</div>
-          <div class="rating">critics: {{this.film.rating.filmCritics}}</div>
+        <v-container class="d-flex pa-0 ma-0 justify-space-between mt-2">
+          <div class="ratings">
+            <div class="rating">kp: {{this.film.rating.kp}}</div>
+            <div class="rating">imdb: {{this.film.rating.imdb}}</div>
+            <div class="rating">critics: {{this.film.rating.filmCritics}}</div>
+          </div>
+          <v-btn style="background-color: #919496">
+            <v-icon icon="mdi-plus-circle-outline" style="color: #7DD3FC"></v-icon>
+          </v-btn>
+        </v-container>
+        <div class="block">
+
         </div>
-        <v-rating length="10"></v-rating>
-        <p id="line"></p>
       </v-card-item>
     </v-card>
   </v-container>
@@ -40,7 +46,8 @@ export default {
   data(){
     return{
       film: null,
-      rating: 0
+      rating: 0,
+      flag: true
     }
   },
   beforeRouteEnter(to, from, next){
@@ -57,7 +64,6 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next){
-    console.log("leave")
     localStorage.removeItem('film')
     next()
   },
@@ -69,6 +75,16 @@ export default {
   watch:{
     film(newFilm){
       localStorage.setItem('film', JSON.stringify(newFilm))
+    }
+  },
+  methods:{
+    label(){
+      if(this.flag){
+        return "развернуть..."
+      }
+      else{
+        return "свернуть"
+      }
     }
   },
   created() {
@@ -89,11 +105,11 @@ export default {
 
 <style scoped>
 #title{
-  text-align: center;
+  /*text-align: center;*/
   color: #7DD3FC;
   font-family: system-ui;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
 }
 #text{
   color: #dee3ed;
@@ -102,7 +118,7 @@ export default {
 }
 .wrapper {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column-reverse;
   border-bottom: 1px solid #7DD3FC;
   align-items: flex-end;
   padding-bottom: 5px;
@@ -121,22 +137,22 @@ input[type="checkbox"]:checked + #text {
 label {
   color: #dee3ed;
   text-decoration: underline;
-  font-size: 18px;
+  font-size: 12px;
   cursor: pointer;
 }
 .ratings{
   display: flex;
   gap: 10px;
-  margin-top: 6px;
 }
 .rating{
   font-family: system-ui;
   font-size: 12px;
   border-radius: 8px;
   background-color: #919496;
-  padding: 4px;
+  padding: 6px;
+  margin: auto;
 }
-.score{
-
+.additionally{
+  background-color: #7DD3FC;
 }
 </style>
