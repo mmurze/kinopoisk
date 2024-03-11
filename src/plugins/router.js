@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import StartPage from "../pages/StartPage.vue";
-import FilmCard from "../pages/FilmCard.vue";
+import FilmCard from "../pages/FilmPage.vue";
 import NotFound from "../pages/NotFound.vue";
 import PersonPage from "../pages/PersonPage.vue";
 

@@ -3,7 +3,6 @@
     <v-app-bar scroll-behavior="elevate" >
       <v-app-bar-title id="header" @click="this.$router.push({name: 'home'})">ПоискКино</v-app-bar-title>
     </v-app-bar>
-
     <router-view></router-view>
   </v-app>
 </template>
