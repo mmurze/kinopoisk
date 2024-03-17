@@ -75,11 +75,11 @@ export default {
       return searchTypes.map((item) => item.name)
     }
   },
-  mounted() {
-    if(localStorage.getItem('searchType') !== "null"){
+  mounted: function () {
+    if (localStorage.getItem('searchType') !== "null") {
       this.searchType = localStorage.getItem('searchType')
     }
-    if(localStorage.getItem('searchFilm') !== "null"){
+    if (localStorage.getItem('searchFilm') !== "null") {
       this.searchFilm = localStorage.getItem('searchFilm')
     }
   },
@@ -96,10 +96,11 @@ export default {
       return Math.ceil(this.getFilm.length / this.perPage)
     },
   },
-  async created() {
+  async created(key, value) {
     try {
       const data = await axios.get('')
       this.fs.films = data.data
+      // localStorage.setItem("taggetMovies", JSON.stringify([]))
     }
     catch (e){
       console.log(e.name)

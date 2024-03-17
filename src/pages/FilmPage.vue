@@ -5,18 +5,19 @@
       <v-card-item>
         <v-card-title id="title" class="pa-0 ma-0 mb-2">{{film.name}}</v-card-title>
         <div class="wrapper">
-          <label for="button" @click="flag=!flag">{{label()}}</label>
+          <label for="button" @click="roll=!roll">{{label()}}</label>
           <input type="checkbox" id="button">
           <p id="text">{{film.description}}</p>
         </div>
         <v-container class="d-flex pa-0 ma-0 justify-space-between mt-2">
-          <div class="ratings">
+          <div class="ratings" v-if="flag">
             <div class="rating">kp: {{film.rating.kp}}</div>
             <div class="rating">imdb: {{film.rating.imdb}}</div>
             <div class="rating">critics: {{film.rating.filmCritics}}</div>
           </div>
-
+          <v-rating v-else v-model="rating" length="10"></v-rating>
           <v-btn
+              v-if="flag"
               id="dots_btn"
               elevation="0"
               variant="tonal"
@@ -29,8 +30,11 @@
                     :key="index"
                     :value="index"
                 >
-                  <v-list-item-title class="d-flex justify-space-between align-center">
-                    {{ item.name }} <v-icon :icon="item.icon" size="small" end/>
+                  <v-list-item-title
+                      class="d-flex justify-space-between align-center"
+                      @click="changeFlag(index)"
+                  >
+                    {{ item.name }} <v-icon :icon="icon(item, index)" size="small" end/>
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -38,7 +42,6 @@
           </v-btn>
         </v-container>
       </v-card-item>
-      <v-rating></v-rating>
     </v-card>
   </v-container>
   <v-container class="">
@@ -73,8 +76,9 @@ export default {
     return{
       film: null,
       rating: 0,
+      roll: true,
       flag: true,
-
+      bookmark: false,
       actions:[
         {
           name: "Оценить",
@@ -97,6 +101,10 @@ export default {
     localStorage.removeItem('film')
     const id = to.params.id
     this.film = this.fs.films.find(film => film.id === id)
+    this.rating = 0
+    this.roll = true
+    this.flag = true
+    this.bookmark = false
     if (!this.film){
       this.$router.push({name: 'home'})
     }
@@ -110,16 +118,59 @@ export default {
   watch:{
     film(newFilm){
       localStorage.setItem('film', JSON.stringify(newFilm))
+    },
+    rating(){
+      this.flag = !this.flag
+      this.addChangesToLS()
+    },
+    bookmark(value){
+      this.addChangesToLS()
     }
   },
+
   methods:{
+    changeFlag(index){
+      if(index === 0){
+        this.flag = !this.flag
+      }
+      else {
+        this.bookmark = !this.bookmark
+      }
+    },
+    icon(item, index){
+      if(index === 0 && this.rating !== 0){
+        return item.fillIcon
+      }
+      if(index === 1 && this.bookmark === true){
+        return item.fillIcon
+      }
+      return item.icon
+    },
     label(){
-      if(this.flag){
+      if(this.roll){
         return "развернуть..."
       }
       else{
         return "свернуть"
       }
+    },
+    addChangesToLS(){
+      let obj = {id: this.film.id, rating: this.rating, bookmark: this.bookmark}
+      let taggetMovies = []
+      if(localStorage.getItem('taggetMovies') === null){
+        taggetMovies.push(obj)
+      }
+      else{
+        taggetMovies = JSON.parse(localStorage.getItem('taggetMovies'))
+        let ind = taggetMovies.map(item => item.id).findIndex(id => id === this.film.id)
+        if (ind < 0){
+          taggetMovies.push(obj)
+        }
+        else{
+          taggetMovies[ind] = obj
+        }
+      }
+      localStorage.setItem('taggetMovies', JSON.stringify(taggetMovies))
     }
   },
   created() {
@@ -134,6 +185,7 @@ export default {
     else{
       this.film = data
     }
+    this.addChangesToLS()
   },
 }
 </script>
